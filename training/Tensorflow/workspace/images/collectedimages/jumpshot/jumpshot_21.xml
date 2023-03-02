@@ -1,0 +1,26 @@
+<annotation>
+	<folder>jumpshot</folder>
+	<filename>jumpshot_21.jpeg</filename>
+	<path>C:\Users\Abrad\Documents\GitHub\AI_Basketball\training\Tensorflow\workspace\images\collectedimages\jumpshot\jumpshot_21.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>450</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Jumpshot</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>298</xmin>
+			<ymin>1</ymin>
+			<xmax>510</xmax>
+			<ymax>249</ymax>
+		</bndbox>
+	</object>
+</annotation>
