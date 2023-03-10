@@ -132,3 +132,6 @@ dmypy.json
 
 # DS_store removal
 .DS_Store
+
+# Tensorflow Library ignore
+Tensorflow/
