@@ -110,6 +110,7 @@ ENV/
 env.bak/
 venv.bak/
 application/
+ai/
 
 # Spyder project settings
 .spyderproject
