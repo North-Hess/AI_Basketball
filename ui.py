@@ -16,6 +16,7 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
+
 # import logo_rc
 
 class Ui_MainWindow(object):
@@ -24,8 +25,8 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(800, 640)
         MainWindow.setStyleSheet(u"*{\n"
-"	border: none;\n"
-"}")
+        "	border: none;\n"
+        "}")
         self.actionGames = QAction(MainWindow)
         self.actionGames.setObjectName(u"actionGames")
         self.actionAnalyze = QAction(MainWindow)
@@ -35,7 +36,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"background-color: rgb(255,255,255);\n"
-"color: black;")
+        "color: black;")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -112,6 +113,12 @@ class Ui_MainWindow(object):
         self.buttonContainer.setObjectName(u"buttonContainer")
         self.buttonContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.buttonContainer.setFrameShadow(QFrame.Shadow.Raised)
+        # Menu button stylesheet
+        self.buttonContainer.setStyleSheet("""
+            QPushButton:hover {
+                background-color:rgb(218,126,22);
+            }
+        """)
         self.verticalLayout_12 = QVBoxLayout(self.buttonContainer)
         self.verticalLayout_12.setSpacing(0)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
@@ -123,9 +130,12 @@ class Ui_MainWindow(object):
         self.homeContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_9 = QVBoxLayout(self.homeContainer)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.homeButton = QPushButton(self.homeContainer)
         self.homeButton.setObjectName(u"homeButton")
         self.homeButton.setStyleSheet(u"border: none;")
+        self.homeButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.homeButton.setMinimumSize(QSize(0,40))
 
         self.verticalLayout_9.addWidget(self.homeButton)
 
@@ -135,15 +145,18 @@ class Ui_MainWindow(object):
         self.uploadContainer = QFrame(self.buttonContainer)
         self.uploadContainer.setObjectName(u"uploadContainer")
         self.uploadContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);\n"
-"border-bottom: none;\n"
-"border-top: none;")
+        "border-bottom: none;\n"
+        "border-top: none;")
         self.uploadContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.uploadContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_10 = QVBoxLayout(self.uploadContainer)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.uploadButton = QPushButton(self.uploadContainer)
         self.uploadButton.setObjectName(u"uploadButton")
         self.uploadButton.setStyleSheet(u"border: none;")
+        self.uploadButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.uploadButton.setMinimumSize(QSize(0,40))
 
         self.verticalLayout_10.addWidget(self.uploadButton)
 
@@ -157,9 +170,12 @@ class Ui_MainWindow(object):
         self.gameContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_11 = QVBoxLayout(self.gameContainer)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.gamesButton = QPushButton(self.gameContainer)
         self.gamesButton.setObjectName(u"gamesButton")
         self.gamesButton.setStyleSheet(u"border: none;")
+        self.gamesButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.gamesButton.setMinimumSize(QSize(0,40))
 
         self.verticalLayout_11.addWidget(self.gamesButton)
 
@@ -205,6 +221,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.slideMenuButton = QPushButton(self.slideMenuButtonFrame)
         self.slideMenuButton.setObjectName(u"slideMenuButton")
+        self.slideMenuButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.verticalLayout_5.addWidget(self.slideMenuButton)
 
