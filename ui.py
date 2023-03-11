@@ -203,10 +203,10 @@ class Ui_MainWindow(object):
         self.slideMenuButtonFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.slideMenuButtonFrame)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.pushButton = QPushButton(self.slideMenuButtonFrame)
-        self.pushButton.setObjectName(u"pushButton")
+        self.slideMenuButton = QPushButton(self.slideMenuButtonFrame)
+        self.slideMenuButton.setObjectName(u"slideMenuButton")
 
-        self.verticalLayout_5.addWidget(self.pushButton)
+        self.verticalLayout_5.addWidget(self.slideMenuButton)
 
 
         self.horizontalLayout_2.addWidget(self.slideMenuButtonFrame, 0, Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
@@ -290,7 +290,7 @@ class Ui_MainWindow(object):
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.uploadButton.setText(QCoreApplication.translate("MainWindow", u"Upload", None))
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
+        self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"AI Tracker by North Hess v0.1", None))
     # retranslateUi
