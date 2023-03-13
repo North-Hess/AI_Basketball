@@ -27,6 +27,11 @@ class MainWindow(QMainWindow):
         # Slide menu toggle button
         self.ui.slideMenuButton.clicked.connect(lambda: self.slideMenu())
 
+        # Main content change
+        self.ui.uploadButton.clicked.connect(lambda: self.uploadContent())
+        self.ui.homeButton.clicked.connect(lambda: self.homeContent())
+        self.ui.gamesButton.clicked.connect(lambda: self.gamesContent())
+
         self.show()
 
     # Function for slide menu to move in and out
@@ -51,6 +56,20 @@ class MainWindow(QMainWindow):
         self.animation.setEndValue(newWidth)
         self.animation.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
         self.animation.start()
+
+    # TODO implement different menus: Home, Upload, Games
+    # State machine? Stacked widgets?
+    def homeContent(self) -> None:
+        self.ui.contentsStackedWidget.setCurrentIndex(0)
+        self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Welcome!", None))
+
+    def uploadContent(self) -> None:
+        self.ui.contentsStackedWidget.setCurrentIndex(1)
+        self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Upload", None))
+
+    def gamesContent(self) -> None:
+        self.content = "Games"
+        self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Games", None))
 
 
 # Execute application

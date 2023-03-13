@@ -8,10 +8,6 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-# from PySide2.QtCore import *
-# from PySide2.QtGui import *
-# from PySide2.QtWidgets import *
-
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -115,8 +111,17 @@ class Ui_MainWindow(object):
         self.buttonContainer.setFrameShadow(QFrame.Shadow.Raised)
         # Menu button stylesheet
         self.buttonContainer.setStyleSheet("""
+            QPushButton {
+                border-top: 0.5px solid rgb(0,0,0);
+                border-bottom: 0.5px solid rgb(0,0,0);
+            }
+            QPushButton#uploadButton {
+                border-top: none;
+                border-bottom: none;
+            }
             QPushButton:hover {
                 background-color:rgb(218,126,22);
+                border-left: 6px solid rgb(0,0,0);
             }
         """)
         self.verticalLayout_12 = QVBoxLayout(self.buttonContainer)
@@ -125,7 +130,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
         self.homeContainer = QFrame(self.buttonContainer)
         self.homeContainer.setObjectName(u"homeContainer")
-        self.homeContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);")
+        # self.homeContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);")
         self.homeContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.homeContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_9 = QVBoxLayout(self.homeContainer)
@@ -133,7 +138,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.homeButton = QPushButton(self.homeContainer)
         self.homeButton.setObjectName(u"homeButton")
-        self.homeButton.setStyleSheet(u"border: none;")
+        # self.homeButton.setStyleSheet(u"border: none;")
         self.homeButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.homeButton.setMinimumSize(QSize(0,40))
 
@@ -144,9 +149,9 @@ class Ui_MainWindow(object):
 
         self.uploadContainer = QFrame(self.buttonContainer)
         self.uploadContainer.setObjectName(u"uploadContainer")
-        self.uploadContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);\n"
-        "border-bottom: none;\n"
-        "border-top: none;")
+        # self.uploadContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);\n"
+        # "border-bottom: none;\n"
+        # "border-top: none;")
         self.uploadContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.uploadContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_10 = QVBoxLayout(self.uploadContainer)
@@ -154,7 +159,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.uploadButton = QPushButton(self.uploadContainer)
         self.uploadButton.setObjectName(u"uploadButton")
-        self.uploadButton.setStyleSheet(u"border: none;")
+        # self.uploadButton.setStyleSheet(u"border: none;")
         self.uploadButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.uploadButton.setMinimumSize(QSize(0,40))
 
@@ -165,7 +170,7 @@ class Ui_MainWindow(object):
 
         self.gameContainer = QFrame(self.buttonContainer)
         self.gameContainer.setObjectName(u"gameContainer")
-        self.gameContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);")
+        # self.gameContainer.setStyleSheet(u"border: 2px solid rgb(0,0,0);")
         self.gameContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.gameContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_11 = QVBoxLayout(self.gameContainer)
@@ -173,7 +178,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.gamesButton = QPushButton(self.gameContainer)
         self.gamesButton.setObjectName(u"gamesButton")
-        self.gamesButton.setStyleSheet(u"border: none;")
+        # self.gamesButton.setStyleSheet(u"border: none;")
         self.gamesButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.gamesButton.setMinimumSize(QSize(0,40))
 
@@ -247,8 +252,43 @@ class Ui_MainWindow(object):
 
         self.contentsFrame = QFrame(self.mainBody)
         self.contentsFrame.setObjectName(u"contentsFrame")
+        contentsSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
+        contentsSizePolicy.setHorizontalStretch(0)
+        contentsSizePolicy.setVerticalStretch(0)
+        contentsSizePolicy.setHeightForWidth(self.contentsFrame.sizePolicy().hasHeightForWidth())
+        self.contentsFrame.setSizePolicy(contentsSizePolicy)
         self.contentsFrame.setFrameShape(QFrame.Shape.StyledPanel)
         self.contentsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.contentsLayout = QVBoxLayout(self.contentsFrame)
+        self.contentsLayout.setSpacing(0)
+        self.contentsLayout.setObjectName("contentsLayout")
+        self.contentsLayout.setContentsMargins(0, 0, 0, 0)
+
+        # Create stacked widget for multiple pages
+        self.contentsStackedWidget = QStackedWidget(self.contentsFrame)
+        self.contentsStackedWidget.setObjectName("contentsStackedWidget")
+        # Create home page
+        self.homePage = QWidget()
+        self.homePage.setObjectName("homePage")
+        self.homePageVerticalLayout = QVBoxLayout(self.homePage)
+        self.homePageVerticalLayout.setObjectName("homePageVerticalLayout")
+        self.homeLabel = QLabel(self.homePage)
+        self.homeLabel.setObjectName("homeLabel")
+        self.homePageVerticalLayout.addWidget(self.homeLabel)
+        self.contentsStackedWidget.addWidget(self.homePage)
+
+        # Create upload page
+        self.uploadPage = QWidget()
+        self.uploadPage.setObjectName("uploadPage")
+        self.uploadPageVerticalLayout = QVBoxLayout(self.uploadPage)
+        self.uploadPageVerticalLayout.setObjectName("uploadPageVerticalLayout")
+        self.uploadFileButton = QPushButton(self.uploadPage)
+        self.uploadFileButton.setObjectName("uploadFileButton")
+        self.uploadPageVerticalLayout.addWidget(self.uploadFileButton)
+        self.contentsStackedWidget.addWidget(self.uploadPage)
+
+        # Set default widget in contentsStackedWidget
+        self.contentsStackedWidget.setCurrentIndex(0)
 
         self.verticalLayout.addWidget(self.contentsFrame)
 
@@ -305,7 +345,9 @@ class Ui_MainWindow(object):
         self.actionUngrouped_Footage.setText(QCoreApplication.translate("MainWindow", u"Ungrouped Footage", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"AI TRACKER", None))
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
+        self.homeLabel.setText(QCoreApplication.translate("MainWindow", "Home placeholder text", None))
         self.uploadButton.setText(QCoreApplication.translate("MainWindow", u"Upload", None))
+        self.uploadFileButton.setText(QCoreApplication.translate("MainWindow", "Select game footage", None))
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
         self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
