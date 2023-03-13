@@ -35,6 +35,11 @@ class MainWindow(QMainWindow):
         self.ui.homeButton.clicked.connect(lambda: self.homeContent())
         self.ui.gamesButton.clicked.connect(lambda: self.gamesContent())
 
+        # Ensure default directories exist
+        self.ungroupedFootageDirectory = os.path.join(os.getcwd(), "UngroupedFootage")
+        if not os.path.exists(self.ungroupedFootageDirectory):
+            os.mkdir(self.ungroupedFootageDirectory)
+
         self.show()
 
     # Function for slide menu to move in and out
@@ -71,6 +76,11 @@ class MainWindow(QMainWindow):
             filter=fileFilter,
             initialFilter="Images (*.jpeg, *.jpg, *.png)"
         )
+        filesToCopy = response[0]
+        for file in filesToCopy:
+            fileName = os.path.split(file)[1]
+            os.rename(file, os.path.join(self.ungroupedFootageDirectory, fileName))
+
 
     # Functions for buttons in slide menu to update page
     def homeContent(self) -> None:
