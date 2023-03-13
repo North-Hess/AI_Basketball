@@ -27,6 +27,9 @@ class MainWindow(QMainWindow):
         # Slide menu toggle button
         self.ui.slideMenuButton.clicked.connect(lambda: self.slideMenu())
 
+        # Upload files to system button
+        self.ui.uploadFileButton.clicked.connect(lambda: self.uploadFiles())
+
         # Main content change
         self.ui.uploadButton.clicked.connect(lambda: self.uploadContent())
         self.ui.homeButton.clicked.connect(lambda: self.homeContent())
@@ -57,8 +60,19 @@ class MainWindow(QMainWindow):
         self.animation.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuart)
         self.animation.start()
 
-    # TODO implement different menus: Home, Upload, Games
-    # State machine? Stacked widgets?
+    # Function for button in upload page to upload files to system for analysis
+    def uploadFiles(self) -> None:
+        defaultDirectory = os.path.join(os.path.expanduser('~'), "Documents", "")
+        fileFilter = "Images (*.jpeg, *.jpg, *.png);; Videos(*.mp4, *.mov);;"
+        response = QFileDialog.getOpenFileNames(
+            parent=self,
+            caption="Select file(s) to upload",
+            directory=defaultDirectory,
+            filter=fileFilter,
+            initialFilter="Images (*.jpeg, *.jpg, *.png)"
+        )
+
+    # Functions for buttons in slide menu to update page
     def homeContent(self) -> None:
         self.ui.contentsStackedWidget.setCurrentIndex(0)
         self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Welcome!", None))
@@ -68,7 +82,7 @@ class MainWindow(QMainWindow):
         self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Upload", None))
 
     def gamesContent(self) -> None:
-        self.content = "Games"
+        self.ui.contentsStackedWidget.setCurrentIndex(2)
         self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Games", None))
 
 

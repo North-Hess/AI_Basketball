@@ -250,8 +250,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.headerFrame, 0, Qt.AlignmentFlag.AlignTop)
 
+        # Create contents frame
         self.contentsFrame = QFrame(self.mainBody)
         self.contentsFrame.setObjectName(u"contentsFrame")
+        # Crate border to help visualize space that frame takes up
+        self.contentsFrame.setStyleSheet("border:1px solid rgb(0,0,0);")
+        # Create sizing policy to expand contents into space
         contentsSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
         contentsSizePolicy.setHorizontalStretch(0)
         contentsSizePolicy.setVerticalStretch(0)
@@ -267,25 +271,75 @@ class Ui_MainWindow(object):
         # Create stacked widget for multiple pages
         self.contentsStackedWidget = QStackedWidget(self.contentsFrame)
         self.contentsStackedWidget.setObjectName("contentsStackedWidget")
+        # Create identifying border to help visualize
+        self.contentsStackedWidget.setStyleSheet("border:1px solid rgb(255,0,0);")
+        # Create sizing policy for inner elements
+        # contentsStackedWidgetSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred,QSizePolicy.Policy.MinimumExpanding)
+        # contentsStackedWidgetSizePolicy.setHorizontalStretch(0)
+        # contentsStackedWidgetSizePolicy.setVerticalStretch(0)
+        # contentsStackedWidgetSizePolicy.setHeightForWidth(self.contentsStackedWidget.sizePolicy().hasHeightForWidth())
+        # self.contentsStackedWidget.setSizePolicy(contentsStackedWidgetSizePolicy)
+        # Add stacked widget to contents layout
+        self.contentsLayout.addWidget(self.contentsStackedWidget)
+
         # Create home page
         self.homePage = QWidget()
         self.homePage.setObjectName("homePage")
+        # Create home page layout
         self.homePageVerticalLayout = QVBoxLayout(self.homePage)
         self.homePageVerticalLayout.setObjectName("homePageVerticalLayout")
+        # Create placeholder home page label
         self.homeLabel = QLabel(self.homePage)
         self.homeLabel.setObjectName("homeLabel")
+        # Add placeholder label to home page layout
         self.homePageVerticalLayout.addWidget(self.homeLabel)
+        # Add home page widget to stacked widget
         self.contentsStackedWidget.addWidget(self.homePage)
 
         # Create upload page
         self.uploadPage = QWidget()
         self.uploadPage.setObjectName("uploadPage")
+        self.uploadPage.setStyleSheet("border:1px solid rgb(0,0,0);")
+        # Create layout for upload page
         self.uploadPageVerticalLayout = QVBoxLayout(self.uploadPage)
         self.uploadPageVerticalLayout.setObjectName("uploadPageVerticalLayout")
-        self.uploadFileButton = QPushButton(self.uploadPage)
+        self.uploadPageVerticalLayout.setSpacing(0)
+        self.uploadPageVerticalLayout.setContentsMargins(0, 0, 0, 0)
+        # Create frame for upload file button
+        self.uploadFileButtonFrame = QFrame(self.uploadPage)
+        self.uploadFileButtonFrame.setObjectName("uploadFileButtonFrame")
+        self.uploadFileButtonFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.uploadFileButtonFrame.setFrameShadow(QFrame.Shadow.Raised)
+        # Create layout for upload file button frame
+        self.uploadFileButtonFrameVerticalLayout = QVBoxLayout(self.uploadFileButtonFrame)
+        self.uploadFileButtonFrameVerticalLayout.setObjectName("uploadFileButtonFrameVerticalLayout")
+        self.uploadFileButtonFrameVerticalLayout.setSpacing(0)
+        self.uploadFileButtonFrameVerticalLayout.setContentsMargins(0,0,0,0)
+        # Create upload file button
+        self.uploadFileButton = QPushButton(self.uploadFileButtonFrame)
         self.uploadFileButton.setObjectName("uploadFileButton")
-        self.uploadPageVerticalLayout.addWidget(self.uploadFileButton)
+        self.uploadFileButton.setMinimumSize(25,0)
+        self.uploadFileButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Add upload file button to upload file button frame layout
+        self.uploadFileButtonFrameVerticalLayout.addWidget(self.uploadFileButton)
+        # Add upload file button frame to upload page layout
+        self.uploadPageVerticalLayout.addWidget(self.uploadFileButtonFrame)
+        # Add upload page to stacked widget
         self.contentsStackedWidget.addWidget(self.uploadPage)
+
+        # Create games page
+        self.gamesPage = QWidget()
+        self.gamesPage.setObjectName("gamesPage")
+        # Create games page layout
+        self.gamesPageVerticalLayout = QVBoxLayout(self.gamesPage)
+        self.gamesPageVerticalLayout.setObjectName("gamesPageVerticalLayout")
+        # Create placeholder games page label
+        self.gamesLabel = QLabel(self.gamesPage)
+        self.gamesLabel.setObjectName("gamesLabel")
+        # Add placeholder label to games page layout
+        self.gamesPageVerticalLayout.addWidget(self.gamesLabel)
+        # Add games page widget to stacked widget
+        self.contentsStackedWidget.addWidget(self.gamesPage)
 
         # Set default widget in contentsStackedWidget
         self.contentsStackedWidget.setCurrentIndex(0)
@@ -344,11 +398,16 @@ class Ui_MainWindow(object):
         self.actionAnalyze.setText(QCoreApplication.translate("MainWindow", u"Analyze", None))
         self.actionUngrouped_Footage.setText(QCoreApplication.translate("MainWindow", u"Ungrouped Footage", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"AI TRACKER", None))
+        # Generate text for home related elements
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.homeLabel.setText(QCoreApplication.translate("MainWindow", "Home placeholder text", None))
+        # Generate text for upload related elements
         self.uploadButton.setText(QCoreApplication.translate("MainWindow", u"Upload", None))
         self.uploadFileButton.setText(QCoreApplication.translate("MainWindow", "Select game footage", None))
+        # Generate text for games related elements
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
+        self.gamesLabel.setText(QCoreApplication.translate("MainWindow", "Games placeholder text", None))
+        # Generate text for slide menu related elements
         self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"AI Tracker by North Hess v0.1", None))
