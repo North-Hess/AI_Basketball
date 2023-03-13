@@ -36,9 +36,15 @@ class MainWindow(QMainWindow):
         self.ui.gamesButton.clicked.connect(lambda: self.gamesContent())
 
         # Ensure default directories exist
-        self.ungroupedFootageDirectory = os.path.join(os.getcwd(), "UngroupedFootage")
+        self.programDirectory = os.getcwd()
+        self.ungroupedFootageDirectory = os.path.join(self.programDirectory, "UngroupedFootage")
+        self.gamesDirectory = os.path.join(self.programDirectory, "Games")
+        # Ungrouped footage directory
         if not os.path.exists(self.ungroupedFootageDirectory):
             os.mkdir(self.ungroupedFootageDirectory)
+        # Directory of game directories
+        if not os.path.exists(self.gamesDirectory):
+            os.mkdir(self.gamesDirectory)
 
         self.show()
 
@@ -68,18 +74,43 @@ class MainWindow(QMainWindow):
     # Function for button in upload page to upload files to system for analysis
     def uploadFiles(self) -> None:
         defaultDirectory = os.path.join(os.path.expanduser('~'), "Documents", "")
-        fileFilter = "Images (*.jpeg, *.jpg, *.png);; Videos(*.mp4, *.mov);;"
+        fileFilter = "JPEG (*.jpeg *.jpg);; PNG (*.png);; MP4 (*.mp4);; MOV (*.mov)"
         response = QFileDialog.getOpenFileNames(
             parent=self,
             caption="Select file(s) to upload",
             directory=defaultDirectory,
             filter=fileFilter,
-            initialFilter="Images (*.jpeg, *.jpg, *.png)"
+            initialFilter="JPEG (*.jpeg *.jpg)"
         )
         filesToCopy = response[0]
-        for file in filesToCopy:
-            fileName = os.path.split(file)[1]
-            os.rename(file, os.path.join(self.ungroupedFootageDirectory, fileName))
+        if filesToCopy:
+            for file in filesToCopy:
+                fileName = os.path.split(file)[1]
+                os.rename(file, os.path.join(self.ungroupedFootageDirectory, fileName))
+
+    # TODO Function for running games against AI
+    # Radial button for each game displayed in games page?
+    # Select radial button, press run AI button at top of page and run AI against all files in game directory
+
+
+    # Function for populating games from Games folder
+    def populateGames(self) -> None:
+        self.games = []
+        for directory in os.listdir(self.gamesDirectory):
+            fullPath = os.path.join(self.gamesDirectory, directory)
+            if os.path.isdir(fullPath):
+                self.games.append(directory)
+
+    def populateGamesButtons(self) -> None:
+        for child in self.ui.gamesFrame.children():
+            if child.objectName() != "gamesFrameLayout":
+                child.deleteLater()
+        for game in self.games:
+            newGame = QRadioButton(self.ui.gamesFrame)
+            newGame.setObjectName(f"{game}RadioButton")
+            newGame.setText(QCoreApplication.translate("MainWindow", f"{game}", None))
+            self.ui.gamesFrameLayout.addWidget(newGame)
+            
 
 
     # Functions for buttons in slide menu to update page
@@ -94,6 +125,9 @@ class MainWindow(QMainWindow):
     def gamesContent(self) -> None:
         self.ui.contentsStackedWidget.setCurrentIndex(2)
         self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Games", None))
+        self.populateGames()
+        print(self.games)
+        self.populateGamesButtons()
 
 
 # Execute application

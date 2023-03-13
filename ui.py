@@ -256,13 +256,14 @@ class Ui_MainWindow(object):
         # Crate border to help visualize space that frame takes up
         self.contentsFrame.setStyleSheet("border:1px solid rgb(0,0,0);")
         # Create sizing policy to expand contents into space
-        contentsSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
+        contentsSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         contentsSizePolicy.setHorizontalStretch(0)
         contentsSizePolicy.setVerticalStretch(0)
         contentsSizePolicy.setHeightForWidth(self.contentsFrame.sizePolicy().hasHeightForWidth())
         self.contentsFrame.setSizePolicy(contentsSizePolicy)
         self.contentsFrame.setFrameShape(QFrame.Shape.StyledPanel)
         self.contentsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        # Create layout for elements in contents frame
         self.contentsLayout = QVBoxLayout(self.contentsFrame)
         self.contentsLayout.setSpacing(0)
         self.contentsLayout.setObjectName("contentsLayout")
@@ -296,6 +297,7 @@ class Ui_MainWindow(object):
         # Add home page widget to stacked widget
         self.contentsStackedWidget.addWidget(self.homePage)
 
+
         # Create upload page
         self.uploadPage = QWidget()
         self.uploadPage.setObjectName("uploadPage")
@@ -327,18 +329,66 @@ class Ui_MainWindow(object):
         # Add upload page to stacked widget
         self.contentsStackedWidget.addWidget(self.uploadPage)
 
+
         # Create games page
         self.gamesPage = QWidget()
         self.gamesPage.setObjectName("gamesPage")
         # Create games page layout
         self.gamesPageVerticalLayout = QVBoxLayout(self.gamesPage)
         self.gamesPageVerticalLayout.setObjectName("gamesPageVerticalLayout")
-        # Create placeholder games page label
-        self.gamesLabel = QLabel(self.gamesPage)
-        self.gamesLabel.setObjectName("gamesLabel")
-        # Add placeholder label to games page layout
-        self.gamesPageVerticalLayout.addWidget(self.gamesLabel)
-        # Add games page widget to stacked widget
+        # Create game action buttons frame
+        self.gamesActionButtonsFrame = QFrame(self.gamesPage)
+        self.gamesActionButtonsFrame.setObjectName("gamesActionButtonsFrame")
+        self.gamesActionButtonsFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.gamesActionButtonsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        # Create layout for action buttons frame
+        self.gamesActionButtonsFrameLayout = QHBoxLayout(self.gamesActionButtonsFrame)
+        self.gamesActionButtonsFrameLayout.setObjectName("gamesActionButtonsFrameLayout")
+        self.gamesActionButtonsFrameLayout.setSpacing(0)
+        self.gamesActionButtonsFrameLayout.setContentsMargins(0,0,0,0)
+        # Create run AI action button
+        self.runAIButton = QPushButton(self.gamesActionButtonsFrame)
+        self.runAIButton.setObjectName("runAIButton")
+        self.runAIButton.setMinimumSize(50,0)
+        self.runAIButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton)
+
+        # Place game action buttons frame to page layout
+        self.gamesPageVerticalLayout.addWidget(self.gamesActionButtonsFrame, alignment=Qt.AlignmentFlag.AlignTop)
+
+        # Add scroll area for moving through games
+        self.gamesScrollArea = QScrollArea(self.gamesPage)
+        self.gamesScrollArea.setObjectName("gamesScrollArea")
+        self.gamesScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.gamesScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        # Create scroll area layout
+        self.gamesScrollAreaLayout = QVBoxLayout(self.gamesScrollArea)
+        self.gamesScrollAreaLayout.setObjectName("gamesScrollAreaLayout")
+        self.gamesScrollAreaLayout.setContentsMargins(0,0,0,0)
+        # Create sizing policy to expand contents into space
+        gamesSizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        gamesSizePolicy.setHorizontalStretch(0)
+        gamesSizePolicy.setVerticalStretch(0)
+        self.gamesFrame = QFrame(self.gamesScrollArea)
+        self.gamesFrame.setObjectName("gamesFrame")
+        gamesSizePolicy.setHeightForWidth(self.gamesFrame.sizePolicy().hasHeightForWidth())
+        self.gamesFrame.setSizePolicy(gamesSizePolicy)
+        # Add frame for radial buttons of game to have action performed on
+        self.gamesFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.gamesFrame.setFrameShadow(QFrame.Shadow.Raised)
+        # Create layout for games frame
+        self.gamesFrameLayout = QVBoxLayout(self.gamesFrame)
+        self.gamesFrameLayout.setObjectName("gamesFrameLayout")
+        # Add games frame to games scroll area layout
+        self.gamesScrollAreaLayout.addWidget(self.gamesFrame)
+        
+
+
+        # Add scroll area to page layout
+        self.gamesPageVerticalLayout.addWidget(self.gamesScrollArea)
+
+        # Add games page to stacked widget
         self.contentsStackedWidget.addWidget(self.gamesPage)
 
         # Set default widget in contentsStackedWidget
@@ -406,7 +456,7 @@ class Ui_MainWindow(object):
         self.uploadFileButton.setText(QCoreApplication.translate("MainWindow", "Select game footage", None))
         # Generate text for games related elements
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
-        self.gamesLabel.setText(QCoreApplication.translate("MainWindow", "Games placeholder text", None))
+        self.runAIButton.setText(QCoreApplication.translate("MainWindow", "Run AI", None))
         # Generate text for slide menu related elements
         self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
