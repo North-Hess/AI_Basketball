@@ -1,0 +1,26 @@
+<annotation>
+	<folder>basketball_in_hoop</folder>
+	<filename>bih_9.jpeg</filename>
+	<path>C:\Users\Abrad\Documents\GitHub\AI_Basketball\training\Tensorflow\workspace\images\collectedimages\basketball_in_hoop\bih_9.jpeg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1296</width>
+		<height>729</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>MadeBasket</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>372</xmin>
+			<ymin>113</ymin>
+			<xmax>929</xmax>
+			<ymax>613</ymax>
+		</bndbox>
+	</object>
+</annotation>
