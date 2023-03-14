@@ -135,4 +135,3 @@ dmypy.json
 
 # Tensorflow Library ignore
 Tensorflow/
-ai/Scripts/tensorboard.exe
