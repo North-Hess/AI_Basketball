@@ -30,6 +30,9 @@ class MainWindow(QMainWindow):
         # Upload files to system button
         self.ui.uploadFileButton.clicked.connect(lambda: self.uploadFiles())
 
+        # Games page buttons
+        self.ui.runAIButton.clicked.connect(lambda: self.runAI())
+
         # Main content change
         self.ui.uploadButton.clicked.connect(lambda: self.uploadContent())
         self.ui.homeButton.clicked.connect(lambda: self.homeContent())
@@ -91,6 +94,10 @@ class MainWindow(QMainWindow):
     # TODO Function for running games against AI
     # Radial button for each game displayed in games page?
     # Select radial button, press run AI button at top of page and run AI against all files in game directory
+    def runAI(self) -> None:
+        for child in self.ui.gamesFrame.children():
+            if isinstance(child, QRadioButton().__class__) and child.isChecked():
+                print(1)
 
 
     # Function for populating games from Games folder
@@ -101,6 +108,7 @@ class MainWindow(QMainWindow):
             if os.path.isdir(fullPath):
                 self.games.append(directory)
 
+    # Function for populating radio buttons for each game folder
     def populateGamesButtons(self) -> None:
         for child in self.ui.gamesFrame.children():
             if child.objectName() != "gamesFrameLayout":
@@ -110,8 +118,6 @@ class MainWindow(QMainWindow):
             newGame.setObjectName(f"{game}RadioButton")
             newGame.setText(QCoreApplication.translate("MainWindow", f"{game}", None))
             self.ui.gamesFrameLayout.addWidget(newGame)
-            
-
 
     # Functions for buttons in slide menu to update page
     def homeContent(self) -> None:
