@@ -329,15 +329,15 @@ class Ui_MainWindow(object):
         # Add upload page to stacked widget
         self.contentsStackedWidget.addWidget(self.uploadPage)
 
-
-        # Create games page
-        self.gamesPage = QWidget()
-        self.gamesPage.setObjectName("gamesPage")
+        
+        # Create games analysis page
+        self.gamesAnalysisPage = QWidget()
+        self.gamesAnalysisPage.setObjectName("gamesAnalysisPage")
         # Create games page layout
-        self.gamesPageVerticalLayout = QVBoxLayout(self.gamesPage)
-        self.gamesPageVerticalLayout.setObjectName("gamesPageVerticalLayout")
+        self.gamesAnalysisPageVerticalLayout = QVBoxLayout(self.gamesAnalysisPage)
+        self.gamesAnalysisPageVerticalLayout.setObjectName("gamesAnalysisPageVerticalLayout")
         # Create game action buttons frame
-        self.gamesActionButtonsFrame = QFrame(self.gamesPage)
+        self.gamesActionButtonsFrame = QFrame(self.gamesAnalysisPage)
         self.gamesActionButtonsFrame.setObjectName("gamesActionButtonsFrame")
         self.gamesActionButtonsFrame.setFrameShape(QFrame.Shape.StyledPanel)
         self.gamesActionButtonsFrame.setFrameShadow(QFrame.Shadow.Raised)
@@ -351,14 +351,29 @@ class Ui_MainWindow(object):
         self.runAIButton.setObjectName("runAIButton")
         self.runAIButton.setMinimumSize(50,0)
         self.runAIButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        # Place button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton)
+        # Place run AI action button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        # Create rename game button
+        self.renameGameButton = QPushButton(self.gamesActionButtonsFrame)
+        self.renameGameButton.setObjectName("renameGameButton")
+        self.renameGameButton.setMinimumSize(50,0)
+        self.renameGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place rename game button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.renameGameButton, alignment=Qt.AlignmentFlag.AlignHCenter)
+        # Create create game button
+        self.createGameButton = QPushButton(self.gamesActionButtonsFrame)
+        self.createGameButton.setObjectName("createGameButton")
+        self.createGameButton.setMinimumSize(50,0)
+        self.createGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place create game button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, alignment=Qt.AlignmentFlag.AlignRight)
+        
 
         # Place game action buttons frame to page layout
-        self.gamesPageVerticalLayout.addWidget(self.gamesActionButtonsFrame, alignment=Qt.AlignmentFlag.AlignTop)
+        self.gamesAnalysisPageVerticalLayout.addWidget(self.gamesActionButtonsFrame, alignment=Qt.AlignmentFlag.AlignTop)
 
         # Add scroll area for moving through games
-        self.gamesScrollArea = QScrollArea(self.gamesPage)
+        self.gamesScrollArea = QScrollArea(self.gamesAnalysisPage)
         self.gamesScrollArea.setObjectName("gamesScrollArea")
         self.gamesScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.gamesScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -386,10 +401,10 @@ class Ui_MainWindow(object):
 
 
         # Add scroll area to page layout
-        self.gamesPageVerticalLayout.addWidget(self.gamesScrollArea)
+        self.gamesAnalysisPageVerticalLayout.addWidget(self.gamesScrollArea)
 
         # Add games page to stacked widget
-        self.contentsStackedWidget.addWidget(self.gamesPage)
+        self.contentsStackedWidget.addWidget(self.gamesAnalysisPage)
 
         # Set default widget in contentsStackedWidget
         self.contentsStackedWidget.setCurrentIndex(0)
@@ -457,6 +472,8 @@ class Ui_MainWindow(object):
         # Generate text for games related elements
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
         self.runAIButton.setText(QCoreApplication.translate("MainWindow", "Run AI", None))
+        self.createGameButton.setText(QCoreApplication.translate("MainWindow", "Create Game", None))
+        self.renameGameButton.setText(QCoreApplication.translate("MainWindow", "Rename Game", None))
         # Generate text for slide menu related elements
         self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))

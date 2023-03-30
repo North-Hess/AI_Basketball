@@ -35,6 +35,7 @@ class MainWindow(QMainWindow):
 
         # Games page buttons
         self.ui.runAIButton.clicked.connect(lambda: self.runAI())
+        self.ui.renameGameButton.clicked.connect(lambda: self.renameGame())
 
         # Main content change
         self.ui.uploadButton.clicked.connect(lambda: self.uploadContent())
@@ -53,6 +54,7 @@ class MainWindow(QMainWindow):
             os.mkdir(self.gamesDirectory)
 
         self.show()
+
 
     # Function for slide menu to move in and out
     def slideMenu(self) -> None:
@@ -100,8 +102,7 @@ class MainWindow(QMainWindow):
         modelClass = AIDetection()
         for child in self.ui.gamesFrame.children():
             if isinstance(child, QRadioButton().__class__) and child.isChecked():
-                print(child.objectName())
-                modelClass.setGameDirectory(os.path.join("Games",child.objectName()))
+                modelClass.setGameDirectory(os.path.join(self.gamesDirectory, child.objectName()))
                 consumable = modelClass.detectLabels()
                 self.analyze(consumable)
 
@@ -110,14 +111,26 @@ class MainWindow(QMainWindow):
     def analyze(self, consumable: dict) -> None:
         print(consumable)
 
+    
+    # Renames a game
+    def renameGame(self) -> None:
+        for child in self.ui.gamesFrame.children():
+            if isinstance(child, QRadioButton().__class__) and child.isChecked():
+                oldName = os.path.join(self.gamesDirectory, child.objectName())
+        newName, status = QInputDialog.getText(None, "Rename Game", "Enter new name for game:")
+        newName = os.path.join(self.gamesDirectory, newName)
+        if status:
+            os.rename(oldName, newName)
+        self.populateGames()
+        self.populateGamesButtons()
+
 
     # Function for populating games from Games folder
     def populateGames(self) -> None:
         self.games = []
-        for directory in os.listdir(self.gamesDirectory):
-            fullPath = os.path.join(self.gamesDirectory, directory)
-            if os.path.isdir(fullPath):
-                self.games.append(directory)
+        for directory in os.scandir(self.gamesDirectory):
+            if directory.is_dir():
+                self.games.append(directory.name)
 
 
     # Function for populating radio buttons for each game folder

@@ -21,15 +21,16 @@ class AIDetection:
     def detectLabels(self):
         consumable = {}
         for image in os.scandir(self.directory):
-            with open(image, 'rb') as raw:
-                response = self.client.detect_custom_labels(Image={'Bytes': raw.read()},
-                    MinConfidence=self.minConfidence,
-                    MaxResults=self.maxResults,
-                    ProjectVersionArn=self.arn)
-                label = response['CustomLabels']
-                if len(label) != 0:
-                    label = label[0]
-                    consumable[image.name] = f"{label['Name']} : {label['Confidence']}"
+            if image.is_file():
+                with open(image, 'rb') as raw:
+                    response = self.client.detect_custom_labels(Image={'Bytes': raw.read()},
+                        MinConfidence=self.minConfidence,
+                        MaxResults=self.maxResults,
+                        ProjectVersionArn=self.arn)
+                    label = response['CustomLabels']
+                    if len(label) != 0:
+                        label = label[0]
+                        consumable[image.name] = f"{label['Name']} : {label['Confidence']}"
         return consumable
                 
         # with open(self.testPhoto, 'rb') as image:
