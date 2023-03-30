@@ -7,6 +7,9 @@ from PyQt6 import *
 from ui import *
 from PyQt6 import QtCore
 
+# import class for ai analysis
+from ai import AIDetection
+
 # Create MainWindow
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
@@ -91,13 +94,21 @@ class MainWindow(QMainWindow):
                 fileName = os.path.split(file)[1]
                 os.rename(file, os.path.join(self.ungroupedFootageDirectory, fileName))
 
-    # TODO Function for running games against AI
-    # Radial button for each game displayed in games page?
-    # Select radial button, press run AI button at top of page and run AI against all files in game directory
+    
+    # Runs files from selected game against ai
     def runAI(self) -> None:
+        modelClass = AIDetection()
         for child in self.ui.gamesFrame.children():
             if isinstance(child, QRadioButton().__class__) and child.isChecked():
-                print(1)
+                print(child.objectName())
+                modelClass.setGameDirectory(os.path.join("Games",child.objectName()))
+                consumable = modelClass.detectLabels()
+                self.analyze(consumable)
+
+
+    # TODO Implement logic for analyzing model results
+    def analyze(self, consumable: dict) -> None:
+        print(consumable)
 
 
     # Function for populating games from Games folder
@@ -108,6 +119,7 @@ class MainWindow(QMainWindow):
             if os.path.isdir(fullPath):
                 self.games.append(directory)
 
+
     # Function for populating radio buttons for each game folder
     def populateGamesButtons(self) -> None:
         for child in self.ui.gamesFrame.children():
@@ -115,9 +127,10 @@ class MainWindow(QMainWindow):
                 child.deleteLater()
         for game in self.games:
             newGame = QRadioButton(self.ui.gamesFrame)
-            newGame.setObjectName(f"{game}RadioButton")
+            newGame.setObjectName(f"{game}")
             newGame.setText(QCoreApplication.translate("MainWindow", f"{game}", None))
             self.ui.gamesFrameLayout.addWidget(newGame)
+
 
     # Functions for buttons in slide menu to update page
     def homeContent(self) -> None:
@@ -132,7 +145,6 @@ class MainWindow(QMainWindow):
         self.ui.contentsStackedWidget.setCurrentIndex(2)
         self.ui.label_2.setText(QCoreApplication.translate("MainWindow", "Games", None))
         self.populateGames()
-        print(self.games)
         self.populateGamesButtons()
 
 
