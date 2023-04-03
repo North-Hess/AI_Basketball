@@ -10,6 +10,9 @@ from PyQt6 import QtCore
 # import class for ai analysis
 from ai import AIDetection
 
+# import class for footage management
+from footageManagement import FootageManagement
+
 # Create MainWindow
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
@@ -36,6 +39,9 @@ class MainWindow(QMainWindow):
         # Games page buttons
         self.ui.runAIButton.clicked.connect(lambda: self.runAI())
         self.ui.renameGameButton.clicked.connect(lambda: self.renameGame())
+        self.ui.createGameButton.clicked.connect(lambda: self.createGame())
+        self.ui.addFootageButton.clicked.connect(lambda: self.addFootage())
+        self.ui.removeFootageButton.clicked.connect(lambda: self.removeFootage())
 
         # Main content change
         self.ui.uploadButton.clicked.connect(lambda: self.uploadContent())
@@ -123,6 +129,24 @@ class MainWindow(QMainWindow):
             os.rename(oldName, newName)
         self.populateGames()
         self.populateGamesButtons()
+
+    # Creates a game
+    def createGame(self) -> None:
+        newGame, status = QInputDialog.getText(None, "Create Game", "Enter name for new game:")
+        newGame = os.path.join(self.gamesDirectory, newGame)
+        if status:
+            os.mkdir(newGame)
+        self.populateGames()
+        self.populateGamesButtons()
+
+    
+    def addFootage(self) -> None:
+        addFootageWindow = FootageManagement(self.ui, self.gamesDirectory, self.ungroupedFootageDirectory)
+        addFootageWindow.addFootage()
+            
+    def removeFootage(self) -> None:
+        removeFootageWindow = FootageManagement(self.ui, self.gamesDirectory, self.ungroupedFootageDirectory)
+        removeFootageWindow.removeFootage()
 
 
     # Function for populating games from Games folder

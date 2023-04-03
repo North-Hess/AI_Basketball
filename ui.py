@@ -13,6 +13,7 @@ from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 
 
+
 # import logo_rc
 
 class Ui_MainWindow(object):
@@ -367,6 +368,20 @@ class Ui_MainWindow(object):
         self.createGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place create game button in frame
         self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, alignment=Qt.AlignmentFlag.AlignRight)
+        # Create add footage button
+        self.addFootageButton = QPushButton(self.gamesActionButtonsFrame)
+        self.addFootageButton.setObjectName("addFootageButton")
+        self.addFootageButton.setMinimumSize(50,0)
+        self.addFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place add footage button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
+        # Create remove footage button
+        self.removeFootageButton = QPushButton(self.gamesActionButtonsFrame)
+        self.removeFootageButton.setObjectName("removeFootageButton")
+        self.removeFootageButton.setMinimumSize(50,0)
+        self.removeFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place remove footage button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
         
 
         # Place game action buttons frame to page layout
@@ -474,6 +489,8 @@ class Ui_MainWindow(object):
         self.runAIButton.setText(QCoreApplication.translate("MainWindow", "Run AI", None))
         self.createGameButton.setText(QCoreApplication.translate("MainWindow", "Create Game", None))
         self.renameGameButton.setText(QCoreApplication.translate("MainWindow", "Rename Game", None))
+        self.addFootageButton.setText(QCoreApplication.translate("MainWindow", "Add Footage", None))
+        self.removeFootageButton.setText(QCoreApplication.translate("MainWindow", "Remove Footage", None))
         # Generate text for slide menu related elements
         self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
