@@ -8,6 +8,7 @@ class FootageManagement(QDialog):
     from main import MainWindow
     def __init__(self, main: MainWindow):
         QDialog.__init__(self)
+        self.main = main
         self.ui = main.ui
         self.gamesDirectory = main.gamesDirectory
         self.ungroupedFootageDirectory = main.ungroupedFootageDirectory
@@ -93,10 +94,11 @@ class FootageManagement(QDialog):
         if game:
             # Add pop up window instead if there is not footage
             for footage in os.scandir(game):
-                addFootageBox = QCheckBox(self.footageCheckboxFrame)
-                addFootageBox.setObjectName(f"{footage.name}")
-                addFootageBox.setText(QCoreApplication.translate("MainWindow", f"{footage.name}", None))
-                self.footageCheckboxFrameLayout.addWidget(addFootageBox)
+                if footage.is_file():
+                    addFootageBox = QCheckBox(self.footageCheckboxFrame)
+                    addFootageBox.setObjectName(f"{footage.name}")
+                    addFootageBox.setText(QCoreApplication.translate("MainWindow", f"{footage.name}", None))
+                    self.footageCheckboxFrameLayout.addWidget(addFootageBox)
             
             self.submitButton.clicked.connect(lambda: self.__removeFootageSubmit(self.footageCheckboxFrame, self.footageWindow, game))
             self.footageActionFrameLayout.addWidget(self.submitButton)
@@ -117,6 +119,41 @@ class FootageManagement(QDialog):
             window.close()
 
 
+    def __pastAnalysesWindow(self) -> None:
+        game = ""
+        for child in self.ui.gamesFrame.children():
+            if isinstance(child, QRadioButton().__class__) and child.isChecked():
+                game = os.path.join(self.gamesDirectory, child.objectName(), "Analyses")
+                self.main.activeGame = child.objectName()
+                # Add pop up window if no game is selected
+        if game:
+            # Add pop up window instead if there is not footage
+            for analysis in os.scandir(game):
+                addFootageBox = QRadioButton(self.footageCheckboxFrame)
+                addFootageBox.setObjectName(f"{analysis.name}")
+                addFootageBox.setText(QCoreApplication.translate("MainWindow", f"{analysis.name}", None))
+                self.footageCheckboxFrameLayout.addWidget(addFootageBox)
+            
+            self.submitButton.clicked.connect(lambda: self.__pastAnalysesSubmit(self.footageCheckboxFrame, self.footageWindow, game))
+            self.footageActionFrameLayout.addWidget(self.submitButton)
+
+            self.footageWindow.exec()
+
+
+    def __pastAnalysesSubmit(self, checkedButtons: QFrame, window: QDialog, game: str) -> None:
+        from dashboard import Dashboard
+        for child in checkedButtons.children():
+            if isinstance(child, QRadioButton().__class__) and child.isChecked():
+                pastAnalysesDashboard = Dashboard(self.main)
+                with open(os.path.join(self.main.gamesDirectory, self.main.activeGame, "Analyses", "consumable", child.objectName())) as file:
+                    line = file.readline()
+                    makes, total = line.split(":")
+                    pastAnalysesDashboard.setMakes(makes)
+                pastAnalysesDashboard.setMisses(total)
+        else:
+            window.close()
+
+
     def __cancel(self):
         self.footageWindow.close()
     
@@ -126,3 +163,6 @@ class FootageManagement(QDialog):
 
     def removeFootage(self):
         self.__removeFootageWindow()
+
+    def pastAnalyses(self):
+        self.__pastAnalysesWindow()

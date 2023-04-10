@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
 
         # Games page buttons
         self.ui.runAIButton.clicked.connect(lambda: self.runAI())
+        self.ui.pastAnalysesButton.clicked.connect(lambda: self.pastAnalyses())
         self.ui.renameGameButton.clicked.connect(lambda: self.renameGame())
         self.ui.createGameButton.clicked.connect(lambda: self.createGame())
         self.ui.addFootageButton.clicked.connect(lambda: self.addFootage())
@@ -128,7 +129,7 @@ class MainWindow(QMainWindow):
                 consumable = self.analyze(raw)
                 consumableFilePath = os.path.join(basePath, analysisTime, "consumable", "data.txt")
                 with open(consumableFilePath, 'w') as consumableFile:
-                    consumableFile.write(consumable)
+                    consumableFile.write(f"{consumable[0]}:{consumable[1]}")
                 break
                 
 
@@ -152,6 +153,12 @@ class MainWindow(QMainWindow):
         return makes, total
 
     
+    def pastAnalyses(self):
+        from footageManagement import FootageManagement
+        pastAnalysesWindow = FootageManagement(self)
+        pastAnalysesWindow.pastAnalyses()
+
+
     # Renames a game
     def renameGame(self) -> None:
         for child in self.ui.gamesFrame.children():

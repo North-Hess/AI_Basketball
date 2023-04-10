@@ -354,6 +354,13 @@ class Ui_MainWindow(object):
         self.runAIButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place run AI action button in frame
         self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        # Create past analyses action button
+        self.pastAnalysesButton = QPushButton(self.gamesActionButtonsFrame)
+        self.pastAnalysesButton.setObjectName("pastAnalysesButton")
+        self.pastAnalysesButton.setMinimumSize(50,0)
+        self.pastAnalysesButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        # Place past analyses action button in frame
+        self.gamesActionButtonsFrameLayout.addWidget(self.pastAnalysesButton, alignment=Qt.AlignmentFlag.AlignLeft)
         # Create rename game button
         self.renameGameButton = QPushButton(self.gamesActionButtonsFrame)
         self.renameGameButton.setObjectName("renameGameButton")
@@ -487,6 +494,7 @@ class Ui_MainWindow(object):
         # Generate text for games related elements
         self.gamesButton.setText(QCoreApplication.translate("MainWindow", u"Games", None))
         self.runAIButton.setText(QCoreApplication.translate("MainWindow", "Run AI", None))
+        self.pastAnalysesButton.setText(QCoreApplication.translate("MainWindow", "Past Analyses", None))
         self.createGameButton.setText(QCoreApplication.translate("MainWindow", "Create Game", None))
         self.renameGameButton.setText(QCoreApplication.translate("MainWindow", "Rename Game", None))
         self.addFootageButton.setText(QCoreApplication.translate("MainWindow", "Add Footage", None))
