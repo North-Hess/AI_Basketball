@@ -1,15 +1,16 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 import os
-from ui import Ui_MainWindow
+
 
 
 class FootageManagement(QDialog):
-    def __init__(self, ui: Ui_MainWindow, gamesDirectory: str, ungroupedFootage: str):
+    from main import MainWindow
+    def __init__(self, main: MainWindow):
         QDialog.__init__(self)
-        self.ui = ui
-        self.gamesDirectory = gamesDirectory
-        self.ungroupedFootageDirectory = ungroupedFootage
+        self.ui = main.ui
+        self.gamesDirectory = main.gamesDirectory
+        self.ungroupedFootageDirectory = main.ungroupedFootageDirectory
 
         self.footageWindow = QDialog(self)
         self.footageWindow.setMaximumSize(500, 500)

@@ -10,8 +10,9 @@ from PyQt6 import QtCore
 # import class for ai analysis
 from ai import AIDetection
 
-# import class for footage management
-from footageManagement import FootageManagement
+import json
+
+
 
 # Create MainWindow
 class MainWindow(QMainWindow):
@@ -105,17 +106,50 @@ class MainWindow(QMainWindow):
     
     # Runs files from selected game against ai
     def runAI(self) -> None:
+        from datetime import datetime
         modelClass = AIDetection()
         for child in self.ui.gamesFrame.children():
             if isinstance(child, QRadioButton().__class__) and child.isChecked():
-                modelClass.setGameDirectory(os.path.join(self.gamesDirectory, child.objectName()))
-                consumable = modelClass.detectLabels()
-                self.analyze(consumable)
+                self.activeGame = os.path.join(self.gamesDirectory, child.objectName())
+                modelClass.setGameDirectory(self.activeGame)
+                raw = modelClass.detectLabels()
+                analysisTime = datetime.strftime(datetime.now(), "%d-%m-%y")
+                basePath = os.path.join(self.gamesDirectory, child.objectName(), "Analyses")
+                os.makedirs(os.path.join(basePath, analysisTime))
+                os.mkdir(os.path.join(basePath, analysisTime, "raw"))
+                os.mkdir(os.path.join(basePath, analysisTime, "consumable"))
+
+                # Write raw to file in raw folder
+                rawFilePath = os.path.join(basePath, analysisTime, "raw", "data.txt")
+                with open(rawFilePath, 'w') as rawFile:
+                    rawFile.write(json.dumps(raw))
+
+                # Write results to file in consumable folder
+                consumable = self.analyze(raw)
+                consumableFilePath = os.path.join(basePath, analysisTime, "consumable", "data.txt")
+                with open(consumableFilePath, 'w') as consumableFile:
+                    consumableFile.write(consumable)
+                break
+                
 
 
     # TODO Implement logic for analyzing model results
-    def analyze(self, consumable: dict) -> None:
-        print(consumable)
+    def analyze(self, data: dict[str]) -> tuple:
+        # import class for analysis dashboard
+        from dashboard import Dashboard
+        interface = Dashboard(self)
+        makes, total = 0
+        for key, value in data:
+            classification, confidence = value.split(":")
+            classification = classification.strip()
+            confidence = float(confidence.strip())
+            if classification == "made_basket":
+                makes += 1
+            elif classification == "jumpshot":
+                total += 1
+        interface.setMakes(makes)
+        interface.setMisses(total)
+        return makes, total
 
     
     # Renames a game
@@ -141,11 +175,15 @@ class MainWindow(QMainWindow):
 
     
     def addFootage(self) -> None:
-        addFootageWindow = FootageManagement(self.ui, self.gamesDirectory, self.ungroupedFootageDirectory)
+        # import class for footage management
+        from footageManagement import FootageManagement
+        addFootageWindow = FootageManagement(self)
         addFootageWindow.addFootage()
             
     def removeFootage(self) -> None:
-        removeFootageWindow = FootageManagement(self.ui, self.gamesDirectory, self.ungroupedFootageDirectory)
+        # import class for footage management
+        from footageManagement import FootageManagement
+        removeFootageWindow = FootageManagement(self)
         removeFootageWindow.removeFootage()
 
 
