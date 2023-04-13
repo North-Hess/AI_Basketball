@@ -111,8 +111,8 @@ class MainWindow(QMainWindow):
         modelClass = AIDetection()
         for child in self.ui.gamesFrame.children():
             if isinstance(child, QRadioButton().__class__) and child.isChecked():
-                self.activeGame = os.path.join(self.gamesDirectory, child.objectName())
-                modelClass.setGameDirectory(self.activeGame)
+                self.activeGame = child.objectName()
+                modelClass.setGameDirectory(os.path.join(self.gamesDirectory, child.objectName()))
                 raw = modelClass.detectLabels()
                 analysisTime = datetime.strftime(datetime.now(), "%d-%m-%y")
                 basePath = os.path.join(self.gamesDirectory, child.objectName(), "Analyses")
@@ -136,11 +136,10 @@ class MainWindow(QMainWindow):
 
     # TODO Implement logic for analyzing model results
     def analyze(self, data: dict[str]) -> tuple:
-        # import class for analysis dashboard
-        from dashboard import Dashboard
-        interface = Dashboard(self)
-        makes, total = 0
-        for key, value in data:
+        makes, total = 0, 0
+        print(data)
+        print(type(data))
+        for value in data.values():
             classification, confidence = value.split(":")
             classification = classification.strip()
             confidence = float(confidence.strip())
@@ -148,8 +147,9 @@ class MainWindow(QMainWindow):
                 makes += 1
             elif classification == "jumpshot":
                 total += 1
-        interface.setMakes(makes)
-        interface.setMisses(total)
+        # import class for analysis dashboard
+        from dashboard import Dashboard
+        Dashboard(self, makes, total)
         return makes, total
 
     

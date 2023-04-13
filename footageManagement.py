@@ -144,12 +144,10 @@ class FootageManagement(QDialog):
         from dashboard import Dashboard
         for child in checkedButtons.children():
             if isinstance(child, QRadioButton().__class__) and child.isChecked():
-                pastAnalysesDashboard = Dashboard(self.main)
-                with open(os.path.join(self.main.gamesDirectory, self.main.activeGame, "Analyses", "consumable", child.objectName())) as file:
+                with open(os.path.join(self.main.gamesDirectory, self.main.activeGame, "Analyses", child.objectName(), "consumable", "data.txt")) as file:
                     line = file.readline()
                     makes, total = line.split(":")
-                    pastAnalysesDashboard.setMakes(makes)
-                pastAnalysesDashboard.setMisses(total)
+                pastAnalysesDashboard = Dashboard(self.main, int(makes), int(total))
         else:
             window.close()
 

@@ -1,11 +1,10 @@
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
-import os
 
 
 class Dashboard(QDialog):
     from main import MainWindow
-    def __init__(self, main: MainWindow):
+    def __init__(self, main: MainWindow, makes: int, total: int):
         QDialog.__init__(self)
         self.ui = main.ui
         self.game = main.activeGame
@@ -111,6 +110,9 @@ class Dashboard(QDialog):
         self.bodyFrameLayout.addWidget(self.missFrame)
 
         self.analysisFrameLayout.addWidget(self.bodyFrame)
+
+        self.makes.setText(str(makes))
+        self.misses.setText(str(total))
 
         self.analysisWindow.exec()
 
