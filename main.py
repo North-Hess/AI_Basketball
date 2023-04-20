@@ -210,7 +210,10 @@ class MainWindow(QMainWindow):
         for game in self.games:
             newGame = QRadioButton(self.ui.gamesFrame)
             newGame.setObjectName(f"{game}")
+            newGame.setMinimumSize(150, 150)
+            newGame.setMaximumSize(150, 150)
             newGame.setText(QCoreApplication.translate("MainWindow", f"{game}", None))
+            newGame.clicked.connect(lambda: print("Hello clicky"))
             self.ui.gamesFrameLayout.addWidget(newGame)
 
 

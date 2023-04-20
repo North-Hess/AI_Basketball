@@ -8,6 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+import os
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -20,7 +21,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 640)
+        MainWindow.resize(1280, 720)
         MainWindow.setStyleSheet(u"*{\n"
         "	border: none;\n"
         "}")
@@ -32,7 +33,7 @@ class Ui_MainWindow(object):
         self.actionUngrouped_Footage.setObjectName(u"actionUngrouped_Footage")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setStyleSheet(u"background-color: rgb(255,255,255);\n"
+        self.centralwidget.setStyleSheet(u"background-color: transparent;\n"
         "color: black;")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -40,7 +41,12 @@ class Ui_MainWindow(object):
         self.slideMenuContainer = QFrame(self.centralwidget)
         self.slideMenuContainer.setObjectName(u"slideMenuContainer")
         self.slideMenuContainer.setMaximumSize(QSize(200, 16777215))
-        self.slideMenuContainer.setStyleSheet(u"background-color: rgb(252, 146, 25);")
+        # background: linear-gradient(0deg, rgba(175,238,238,1) 0%, rgba(252,146,25,1) 100%);
+        self.slideMenuContainer.setStyleSheet(u"""
+            QFrame#slideMenuContainer {
+                background: qlineargradient( x1:1 y1:0, x2:1 y2:1, stop:1 rgba(175,238,238,1), stop:0 rgba(252,146,25,1));
+            }
+        """)
         self.slideMenuContainer.setFrameShape(QFrame.Shape.StyledPanel)
         self.slideMenuContainer.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_2 = QVBoxLayout(self.slideMenuContainer)
@@ -211,6 +217,14 @@ class Ui_MainWindow(object):
         self.mainBody.setObjectName(u"mainBody")
         self.mainBody.setFrameShape(QFrame.Shape.StyledPanel)
         self.mainBody.setFrameShadow(QFrame.Shadow.Raised)
+        self.mainBody.setStyleSheet("""
+            QFrame#mainBody {
+                background: url(%s);
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+        """ % os.path.join('Assets', 'image.png'))
         self.verticalLayout = QVBoxLayout(self.mainBody)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.headerFrame = QFrame(self.mainBody)
@@ -255,7 +269,7 @@ class Ui_MainWindow(object):
         self.contentsFrame = QFrame(self.mainBody)
         self.contentsFrame.setObjectName(u"contentsFrame")
         # Crate border to help visualize space that frame takes up
-        self.contentsFrame.setStyleSheet("border:1px solid rgb(0,0,0);")
+        # self.contentsFrame.setStyleSheet("border:1px solid rgb(255,0,0);")
         # Create sizing policy to expand contents into space
         contentsSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         contentsSizePolicy.setHorizontalStretch(0)
@@ -274,7 +288,9 @@ class Ui_MainWindow(object):
         self.contentsStackedWidget = QStackedWidget(self.contentsFrame)
         self.contentsStackedWidget.setObjectName("contentsStackedWidget")
         # Create identifying border to help visualize
-        self.contentsStackedWidget.setStyleSheet("border:1px solid rgb(255,0,0);")
+        self.contentsStackedWidget.setStyleSheet("""QStackedWidget {
+                                                    border:1px solid rgb(0,0,0);
+                                                 }""")
         # Create sizing policy for inner elements
         # contentsStackedWidgetSizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred,QSizePolicy.Policy.MinimumExpanding)
         # contentsStackedWidgetSizePolicy.setHorizontalStretch(0)
@@ -293,8 +309,14 @@ class Ui_MainWindow(object):
         # Create placeholder home page label
         self.homeLabel = QLabel(self.homePage)
         self.homeLabel.setObjectName("homeLabel")
+        self.homeLabel.setStyleSheet("""QLabel#homeLabel {
+            background: rgb(175,238,238);
+            font-size: 40px;
+            padding: 5px;
+        }
+        """)
         # Add placeholder label to home page layout
-        self.homePageVerticalLayout.addWidget(self.homeLabel)
+        self.homePageVerticalLayout.addWidget(self.homeLabel, 0, Qt.AlignmentFlag.AlignCenter)
         # Add home page widget to stacked widget
         self.contentsStackedWidget.addWidget(self.homePage)
 
@@ -337,58 +359,80 @@ class Ui_MainWindow(object):
         # Create games page layout
         self.gamesAnalysisPageVerticalLayout = QVBoxLayout(self.gamesAnalysisPage)
         self.gamesAnalysisPageVerticalLayout.setObjectName("gamesAnalysisPageVerticalLayout")
+        self.gamesAnalysisPageVerticalLayout.setContentsMargins(0, 0, 0, 0)
         # Create game action buttons frame
         self.gamesActionButtonsFrame = QFrame(self.gamesAnalysisPage)
         self.gamesActionButtonsFrame.setObjectName("gamesActionButtonsFrame")
-        self.gamesActionButtonsFrame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.gamesActionButtonsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        # self.gamesActionButtonsFrame.setMinimumHeight(20)
+        # self.gamesActionButtonsFrame.setMinimumHeight(30)
+        # self.gamesActionButtonsFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        # self.gamesActionButtonsFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.gamesActionButtonsFrame.setStyleSheet("""
+            QPushButton {
+                padding: 5px 5px;
+                font-size: 10px;
+                text-align: center;
+                color: rgb(0,0,0);
+                background-color: rgb(252, 146, 25);
+                border-left: 0.5px solid rgb(0, 0, 0);
+            }
+
+            QPushButton:hover {background-color: rgb(218,126,22)}
+        """)
         # Create layout for action buttons frame
-        self.gamesActionButtonsFrameLayout = QHBoxLayout(self.gamesActionButtonsFrame)
+        # self.gamesActionButtonsFrameLayout = QHBoxLayout(self.gamesActionButtonsFrame)
+        self.gamesActionButtonsFrameLayout = QGridLayout(self.gamesActionButtonsFrame)
         self.gamesActionButtonsFrameLayout.setObjectName("gamesActionButtonsFrameLayout")
         self.gamesActionButtonsFrameLayout.setSpacing(0)
         self.gamesActionButtonsFrameLayout.setContentsMargins(0,0,0,0)
         # Create run AI action button
         self.runAIButton = QPushButton(self.gamesActionButtonsFrame)
         self.runAIButton.setObjectName("runAIButton")
-        self.runAIButton.setMinimumSize(50,0)
+        self.runAIButton.setMinimumSize(50,30)
         self.runAIButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place run AI action button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.gamesActionButtonsFrameLayout.addWidget(self.runAIButton, 0, 0)
         # Create past analyses action button
         self.pastAnalysesButton = QPushButton(self.gamesActionButtonsFrame)
         self.pastAnalysesButton.setObjectName("pastAnalysesButton")
-        self.pastAnalysesButton.setMinimumSize(50,0)
+        self.pastAnalysesButton.setMinimumSize(50,30)
         self.pastAnalysesButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place past analyses action button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.pastAnalysesButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.pastAnalysesButton, alignment=Qt.AlignmentFlag.AlignLeft)
+        self.gamesActionButtonsFrameLayout.addWidget(self.pastAnalysesButton, 0, 1)
         # Create rename game button
         self.renameGameButton = QPushButton(self.gamesActionButtonsFrame)
         self.renameGameButton.setObjectName("renameGameButton")
-        self.renameGameButton.setMinimumSize(50,0)
+        self.renameGameButton.setMinimumSize(50,30)
         self.renameGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place rename game button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.renameGameButton, alignment=Qt.AlignmentFlag.AlignHCenter)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.renameGameButton, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.gamesActionButtonsFrameLayout.addWidget(self.renameGameButton, 0, 3)
         # Create create game button
         self.createGameButton = QPushButton(self.gamesActionButtonsFrame)
         self.createGameButton.setObjectName("createGameButton")
-        self.createGameButton.setMinimumSize(50,0)
+        self.createGameButton.setMinimumSize(50,30)
         self.createGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place create game button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, alignment=Qt.AlignmentFlag.AlignRight)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, alignment=Qt.AlignmentFlag.AlignRight)
+        self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, 0, 2)
         # Create add footage button
         self.addFootageButton = QPushButton(self.gamesActionButtonsFrame)
         self.addFootageButton.setObjectName("addFootageButton")
-        self.addFootageButton.setMinimumSize(50,0)
+        self.addFootageButton.setMinimumSize(50,30)
         self.addFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place add footage button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
+        self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, 0, 4)
         # Create remove footage button
         self.removeFootageButton = QPushButton(self.gamesActionButtonsFrame)
         self.removeFootageButton.setObjectName("removeFootageButton")
-        self.removeFootageButton.setMinimumSize(50,0)
+        self.removeFootageButton.setMinimumSize(50,30)
         self.removeFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place remove footage button in frame
-        self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
+        # self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
+        self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, 0, 5)
         
 
         # Place game action buttons frame to page layout
@@ -397,18 +441,23 @@ class Ui_MainWindow(object):
         # Add scroll area for moving through games
         self.gamesScrollArea = QScrollArea(self.gamesAnalysisPage)
         self.gamesScrollArea.setObjectName("gamesScrollArea")
-        self.gamesScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.gamesScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.gamesScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         # Create scroll area layout
         self.gamesScrollAreaLayout = QVBoxLayout(self.gamesScrollArea)
         self.gamesScrollAreaLayout.setObjectName("gamesScrollAreaLayout")
         self.gamesScrollAreaLayout.setContentsMargins(0,0,0,0)
         # Create sizing policy to expand contents into space
-        gamesSizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        gamesSizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         gamesSizePolicy.setHorizontalStretch(0)
         gamesSizePolicy.setVerticalStretch(0)
         self.gamesFrame = QFrame(self.gamesScrollArea)
         self.gamesFrame.setObjectName("gamesFrame")
+        self.gamesFrame.setStyleSheet("""
+            QFrame#gamesFrame {
+                background: rgb(175,238,238);
+            }
+        """)
         gamesSizePolicy.setHeightForWidth(self.gamesFrame.sizePolicy().hasHeightForWidth())
         self.gamesFrame.setSizePolicy(gamesSizePolicy)
         # Add frame for radial buttons of game to have action performed on
@@ -484,10 +533,10 @@ class Ui_MainWindow(object):
         self.actionGames.setText(QCoreApplication.translate("MainWindow", u"Games", None))
         self.actionAnalyze.setText(QCoreApplication.translate("MainWindow", u"Analyze", None))
         self.actionUngrouped_Footage.setText(QCoreApplication.translate("MainWindow", u"Ungrouped Footage", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"AI TRACKER", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"SABA", None))
         # Generate text for home related elements
         self.homeButton.setText(QCoreApplication.translate("MainWindow", u"Home", None))
-        self.homeLabel.setText(QCoreApplication.translate("MainWindow", "Home placeholder text", None))
+        self.homeLabel.setText(QCoreApplication.translate("MainWindow", "Welcome to the SlamAI: Basketball Analytics!", None))
         # Generate text for upload related elements
         self.uploadButton.setText(QCoreApplication.translate("MainWindow", u"Upload", None))
         self.uploadFileButton.setText(QCoreApplication.translate("MainWindow", "Select game footage", None))
@@ -500,8 +549,10 @@ class Ui_MainWindow(object):
         self.addFootageButton.setText(QCoreApplication.translate("MainWindow", "Add Footage", None))
         self.removeFootageButton.setText(QCoreApplication.translate("MainWindow", "Remove Footage", None))
         # Generate text for slide menu related elements
-        self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
+        self.slideMenuButton.setIcon(QIcon(os.path.join("Assets", "icons8-basketball-96.png")))
+        self.slideMenuButton.setIconSize(QSize(32, 32))
+        # self.slideMenuButton.setText(QCoreApplication.translate("MainWindow", u"Menu", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Welcome!", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"AI Tracker by North Hess v0.1", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"SlamAI by North Hess v0.1", None))
     # retranslateUi
 
