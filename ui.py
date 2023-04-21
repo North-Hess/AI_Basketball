@@ -217,11 +217,12 @@ class Ui_MainWindow(object):
         self.mainBody.setObjectName(u"mainBody")
         self.mainBody.setFrameShape(QFrame.Shape.StyledPanel)
         self.mainBody.setFrameShadow(QFrame.Shadow.Raised)
+        # background-size: cover;
         self.mainBody.setStyleSheet("""
             QFrame#mainBody {
                 background: url(%s);
                 background-repeat: no-repeat;
-                background-size: cover;
+                
             }
 
         """ % os.path.join('Assets', 'image.png'))
@@ -343,10 +344,16 @@ class Ui_MainWindow(object):
         # Create upload file button
         self.uploadFileButton = QPushButton(self.uploadFileButtonFrame)
         self.uploadFileButton.setObjectName("uploadFileButton")
-        self.uploadFileButton.setMinimumSize(25,0)
+        self.uploadFileButton.setMinimumSize(250,75)
+        self.uploadFileButton.setMaximumSize(300, 75)
         self.uploadFileButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.uploadFileButton.setStyleSheet("""
+            QPushButton#uploadFileButton {
+                background: rgb(175,238,238)
+            }
+        """)
         # Add upload file button to upload file button frame layout
-        self.uploadFileButtonFrameVerticalLayout.addWidget(self.uploadFileButton)
+        self.uploadFileButtonFrameVerticalLayout.addWidget(self.uploadFileButton, 0, Qt.AlignmentFlag.AlignHCenter)
         # Add upload file button frame to upload page layout
         self.uploadPageVerticalLayout.addWidget(self.uploadFileButtonFrame)
         # Add upload page to stacked widget
@@ -443,10 +450,11 @@ class Ui_MainWindow(object):
         self.gamesScrollArea.setObjectName("gamesScrollArea")
         self.gamesScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.gamesScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.gamesScrollArea.setWidgetResizable(True)
         # Create scroll area layout
-        self.gamesScrollAreaLayout = QVBoxLayout(self.gamesScrollArea)
-        self.gamesScrollAreaLayout.setObjectName("gamesScrollAreaLayout")
-        self.gamesScrollAreaLayout.setContentsMargins(0,0,0,0)
+        # self.gamesScrollAreaLayout = QVBoxLayout(self.gamesScrollArea)
+        # self.gamesScrollAreaLayout.setObjectName("gamesScrollAreaLayout")
+        # self.gamesScrollAreaLayout.setContentsMargins(0,0,0,0)
         # Create sizing policy to expand contents into space
         gamesSizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         gamesSizePolicy.setHorizontalStretch(0)
@@ -467,7 +475,8 @@ class Ui_MainWindow(object):
         self.gamesFrameLayout = QVBoxLayout(self.gamesFrame)
         self.gamesFrameLayout.setObjectName("gamesFrameLayout")
         # Add games frame to games scroll area layout
-        self.gamesScrollAreaLayout.addWidget(self.gamesFrame)
+        self.gamesScrollArea.setWidget(self.gamesFrame)
+        # self.gamesScrollAreaLayout.addWidget(self.gamesFrame)
         
 
 
