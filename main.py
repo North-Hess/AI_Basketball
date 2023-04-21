@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         self.ui.pastAnalysesButton.clicked.connect(lambda: self.pastAnalyses())
         self.ui.renameGameButton.clicked.connect(lambda: self.renameGame())
         self.ui.createGameButton.clicked.connect(lambda: self.createGame())
+        self.ui.removeGameButton.clicked.connect(lambda: self.removeGame())
         self.ui.addFootageButton.clicked.connect(lambda: self.addFootage())
         self.ui.removeFootageButton.clicked.connect(lambda: self.removeFootage())
 
@@ -114,7 +115,7 @@ class MainWindow(QMainWindow):
                 self.activeGame = child.objectName()
                 modelClass.setGameDirectory(os.path.join(self.gamesDirectory, child.objectName()))
                 raw = modelClass.detectLabels()
-                analysisTime = datetime.strftime(datetime.now(), "%d-%m-%y")
+                analysisTime = datetime.strftime(datetime.now(), "%Y-%m-%d:%H-%M-%S")
                 basePath = os.path.join(self.gamesDirectory, child.objectName(), "Analyses")
                 os.makedirs(os.path.join(basePath, analysisTime))
                 os.mkdir(os.path.join(basePath, analysisTime, "raw"))
@@ -180,6 +181,19 @@ class MainWindow(QMainWindow):
         self.populateGames()
         self.populateGamesButtons()
 
+    def removeGame(self) -> None:
+        removeGame = ""
+        for child in self.ui.gamesFrame.children():
+            if isinstance(child, QRadioButton().__class__) and child.isChecked():
+                removeGame = os.path.join(self.gamesDirectory, child.objectName())
+        if removeGame:
+            import shutil
+            for footage in os.scandir(removeGame):
+                    if footage.is_file():
+                        os.rename(footage.path, os.path.join(self.ungroupedFootageDirectory, footage.name))
+            shutil.rmtree(removeGame)
+        self.populateGames()
+        self.populateGamesButtons()
     
     def addFootage(self) -> None:
         # import class for footage management

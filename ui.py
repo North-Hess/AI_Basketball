@@ -424,6 +424,11 @@ class Ui_MainWindow(object):
         # Place create game button in frame
         # self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, alignment=Qt.AlignmentFlag.AlignRight)
         self.gamesActionButtonsFrameLayout.addWidget(self.createGameButton, 0, 2)
+        self.removeGameButton = QPushButton(self.gamesActionButtonsFrame)
+        self.removeGameButton.setObjectName("removeGameButton")
+        self.removeGameButton.setMinimumSize(50,30)
+        self.removeGameButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.gamesActionButtonsFrameLayout.addWidget(self.removeGameButton, 0, 4)
         # Create add footage button
         self.addFootageButton = QPushButton(self.gamesActionButtonsFrame)
         self.addFootageButton.setObjectName("addFootageButton")
@@ -431,7 +436,7 @@ class Ui_MainWindow(object):
         self.addFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place add footage button in frame
         # self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
-        self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, 0, 4)
+        self.gamesActionButtonsFrameLayout.addWidget(self.addFootageButton, 0, 5)
         # Create remove footage button
         self.removeFootageButton = QPushButton(self.gamesActionButtonsFrame)
         self.removeFootageButton.setObjectName("removeFootageButton")
@@ -439,7 +444,7 @@ class Ui_MainWindow(object):
         self.removeFootageButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         # Place remove footage button in frame
         # self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, alignment=Qt.AlignmentFlag.AlignRight)
-        self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, 0, 5)
+        self.gamesActionButtonsFrameLayout.addWidget(self.removeFootageButton, 0, 6)
         
 
         # Place game action buttons frame to page layout
@@ -555,6 +560,7 @@ class Ui_MainWindow(object):
         self.pastAnalysesButton.setText(QCoreApplication.translate("MainWindow", "Past Analyses", None))
         self.createGameButton.setText(QCoreApplication.translate("MainWindow", "Create Game", None))
         self.renameGameButton.setText(QCoreApplication.translate("MainWindow", "Rename Game", None))
+        self.removeGameButton.setText(QCoreApplication.translate("MainWindow", "Remove Game", None))
         self.addFootageButton.setText(QCoreApplication.translate("MainWindow", "Add Footage", None))
         self.removeFootageButton.setText(QCoreApplication.translate("MainWindow", "Remove Footage", None))
         # Generate text for slide menu related elements
